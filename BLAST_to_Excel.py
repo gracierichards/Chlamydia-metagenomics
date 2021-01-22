@@ -211,6 +211,7 @@ def write_to_excel(species, samples, sheet):
         for read in s.reads:
             sheet.cell(row, 5).value = "Read " + str(read.n)
             row += 1
+            sheet.cell(row, 1).value = s.name
             for hit in read.blast_hits:
                 sheet.cell(row, 5).value = hit.line
                 sheet.cell(row, 6).value = hit.cds_start + "-" + hit.cds_end
@@ -229,6 +230,7 @@ def write_to_excel(species, samples, sheet):
                     if species in hit.line:
                         sheet.cell(row, 5).fill = PatternFill(start_color = "FFFF00", end_color = "FFFF00", fill_type = "solid")
                 row += 1
+                sheet.cell(row, 1).value = s.name
 
 def main(species, blast_dir, sheet):
     samples = []
@@ -285,7 +287,7 @@ main("Protochlamydia amoebophila", "/home/sbomman/ncbi_blast/Blasted_seq/Paracha
 main("Protochlamydia naegleriophila", "/home/sbomman/ncbi_blast/Blasted_seq/Parachalmydiaceae/candidatus/candidatus_protoch_naegle/", ws4)
 main("Simkania negevensis", "/home/sbomman/ncbi_blast/Blasted_seq/Simkania/", ws5)
 main("Neochlamydia", "/home/sbomman/ncbi_blast/Blasted_seq/Neochlamydia_sp/", ws6)
-wb.save("Blast_output_Chlamydia_Like_bacteria.xlsx")
+wb.save("Blast_output_results_Chlamydia_like_Bacteria.xlsx")
 
 wb2 = Workbook()
 ws = wb2.active
@@ -311,4 +313,4 @@ main("Chlamydia pneumoniae", "/home/sbomman/ncbi_blast/Blasted_seq/Chlamydiaceae
 main("Chlamydia psittaci", "/home/sbomman/ncbi_blast/Blasted_seq/Chlamydiaceae/Chlamydia/ch_psit/", ws9)
 main("Chlamydia suis", "/home/sbomman/ncbi_blast/Blasted_seq/Chlamydiaceae/Chlamydia/ch_suis/", ws10)
 main("Chlamydia unclassified", "/home/sbomman/ncbi_blast/Blasted_seq/Chlamydiaceae/Chlamydia/ch_uncla/", ws11)
-wb2.save("Blast_output_Chlamydia_species.xlsx")
+wb2.save("Blast_output_results_Chlamydia_species.xlsx")
