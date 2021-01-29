@@ -5,15 +5,12 @@ from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.styles import colors
 from openpyxl.cell import Cell
 
-status = {"30":"Negative", "35":"Negative", "57":"Negative", "121":"Negative", "319":"Negative", "72":"Positive", "98":"Positive",
-"107":"Positive", "192":"Positive", "362":"Positive"}
-
-completed = ["Anaplasma", "Bacillus", "belli_group", "Borreliella", "Brucella", "Campylobacter", "Capripoxvirus", "Erysipelothrix", "Leptospira", "Rickettsia", "spotted_fever_group", "Unclassified"]
+samples = ["30C", "30R", "30V", "35C", "35R", "35V", "57C", "57R", "57V", "121C", "121R", "121V", "319C", "319R", "319V", "72C", "72R", "72V",
+"98C", "98R", "98V", "107C", "107R", "107V", "192C", "192R", "192V", "362C", "362R", "362V"]
 
 class Sample:
-    def __init__(self, name, ct_status):
+    def __init__(self, name):
         self.name = name
-        self.ct_status = ct_status
         self.num_species_kraken = 0
         self.reads = []
 
@@ -98,12 +95,6 @@ def count_matches(species, sample):
 """Calculates all the other columns for a single sample object."""
 def other_columns(species, s, path):
     print("Starting other columns for " + species)
-    if species.endswith("includes all"):
-        species.replace(" includes all", "")
-    elif species.endswith("Turkey32"):
-        species.replace(" str. Turkey32", "")
-    elif species.endswith("Sterne"):
-        species.replace(" str. Sterne", "")
     read_num = 0
     print("Sample " + s.name + ": " + str(s.num_species_kraken) + " reads")
     f = open(path, "r")
@@ -135,24 +126,6 @@ def other_columns(species, s, path):
                         s.addRead(read_num, hits[0:4], length)
                 else:
                     s.addRead(read_num, hits, length)
-        elif line.startswith('>'):
-            hit_num = genomeid_in_hits(line, s, read_num)
-            if hit_num != 0:
-                while not line.startswith(" Identities"):
-                    line = f.readline()
-                line = line.split()
-                frac = line[2]
-                percent = line[3][1:-2]
-                s.setFraction(read_num, hit_num, frac)
-                s.setPercent(read_num, hit_num, percent)
-                alignment = [f.readline(), f.readline()]
-                while not two_blank_lines(alignment):
-                    alignment.append(f.readline())
-                sbjct = [line for line in alignment if line.startswith("Sbjct")]
-                cds_start = sbjct[0].split()[1]
-                last_row = sbjct[len(sbjct)-1]
-                cds_end = last_row.split()[3]
-                s.set_cds(read_num, hit_num, cds_start, cds_end)
         line = f.readline()
     print("Finished other columns for " + species)
 
@@ -188,64 +161,7 @@ def two_blank_lines(lines):
         return True
     return False
 
-def write_to_excel(species, samples, sheet):
-    if species == "Bacillus anthracis includes all":
-        sheet['A1'] = "This sheet/tab includes Bacillus anthracis, Bacillus anthracis str. CDC 684, Bacillus anthracis str. Sterne, and Bacillus anthracis str. Turkey32"
-        sheet['A2'] = "Sample ID"
-        sheet['B2'] = "Ct status"
-        sheet['C2'] = "No. of " + species + " reads identified by Kraken"
-        sheet['D2'] = "No. of reads with true identity to " + species
-        sheet['E2'] = "First 4 Blast hits of confirmed " + species + " reads"
-        sheet['F2'] = "Region (bp position)/CDS of " + species + " genome"
-        sheet['G2'] = "Score (bits)"
-        sheet['H2'] = "Supported e-value"
-        sheet['I2'] = "% identity"
-        sheet['J2'] = "Fraction identity"
-        sheet['K2'] = "Read length (bp)"
-        row = 3
-    else:
-        sheet['A1'] = "Sample ID"
-        sheet['B1'] = "Ct status"
-        sheet['C1'] = "No. of " + species + " reads identified by Kraken"
-        sheet['D1'] = "No. of reads with true identity to " + species
-        sheet['E1'] = "First 4 Blast hits of confirmed " + species + " reads"
-        sheet['F1'] = "Region (bp position)/CDS of " + species + " genome"
-        sheet['G1'] = "Score (bits)"
-        sheet['H1'] = "Supported e-value"
-        sheet['I1'] = "% identity"
-        sheet['J1'] = "Fraction identity"
-        sheet['K1'] = "Read length (bp)"
-        row = 2
-    for s in samples:
-        sheet.cell(row, 1).value = s.name
-        sheet.cell(row, 2).value = s.ct_status
-        sheet.cell(row, 3).value = s.num_species_kraken
-        print("Counting number of true hits for " + species)
-        if species.endswith("includes all"):
-            species.replace(" includes all", "")
-        elif species.endswith("Turkey32"):
-            species.replace(" str. Turkey32", "")
-        elif species.endswith("Sterne"):
-            species.replace(" str. Sterne", "")
-        sheet.cell(row, 4).value = count_matches(species, s)
-        print("Finished counting number of true hits for " + species)
-        for read in s.reads:
-            sheet.cell(row, 5).value = "Read " + str(read.n)
-            row += 1
-            sheet.cell(row, 1).value = s.name
-            for hit in read.blast_hits:
-                sheet.cell(row, 5).value = hit.line
-                sheet.cell(row, 6).value = hit.cds_start + "-" + hit.cds_end
-                sheet.cell(row, 7).value = hit.score
-                sheet.cell(row, 8).value = hit.e_val
-                sheet.cell(row, 9).value = hit.percent
-                sheet.cell(row, 10).value = hit.fraction
-                sheet.cell(row, 11).value = read.length
-                if species in hit.line:
-                    sheet.cell(row, 5).fill = PatternFill(start_color = "FFFF00", end_color = "FFFF00", fill_type = "solid")
-                row += 1
-                sheet.cell(row, 1).value = s.name
-
+"""Creates a list of all species in the directory with no duplicates."""
 def collect_species(dir):
     s = set()
     for f in os.listdir(dir):
@@ -255,15 +171,32 @@ def collect_species(dir):
             s.add(f)
     return s
 
+"""Finds which row to put the data in."""
+def find_row(sheet, sample_name):
+    return samples.index(sample_name) + 2
+
+wb = Workbook()
+ws = wb.active
+ws.cell(1, 1).value = "Sample"
+row = 2
+for s in samples:
+    ws.cell(row, 1).value = s
+    row += 1
+
+column = 2
 for dir in os.listdir("/home/sbomman/ncbi_blast/Blasted_seq/Zoonotic_pathogens"):
-    if not dir.endswith("txt") and not dir.endswith("py") and not in completed:
-        wb = Workbook()
+    if not dir.endswith("txt") and not dir.endswith("py"):
         dire = "/home/sbomman/ncbi_blast/Blasted_seq/Zoonotic_pathogens/" + dir + "/"
         species_list = collect_species(dire)
         for species in species_list:
             species = species.replace("_", " ")
-            ws = wb.create_sheet(species[-31:])
-            samples = []
+            ws.cell(1, column).value = species
+            if species.endswith("includes all"):
+                species.replace(" includes all", "")
+            elif species.endswith("Turkey32"):
+                species.replace(" str. Turkey32", "")
+            elif species.endswith("Sterne"):
+                species.replace(" str. Sterne", "")
             for file in os.listdir(dire):
                 if file.endswith("txt"):
                     first_score = file.index("_")
@@ -271,10 +204,12 @@ for dir in os.listdir("/home/sbomman/ncbi_blast/Blasted_seq/Zoonotic_pathogens")
                     file_wspace = file_wspace.replace("_", " ")
                     if file_wspace == species:
                         sample_name = file[0:first_score]
-                        sample_num = sample_name[0:-1]
-                        s = Sample(sample_name, status[sample_num])
+                        s = Sample(sample_name)
                         count_kraken(species, s)
                         other_columns(species, s, dire + file)
-                        samples.append(s)
-            write_to_excel(species, samples, ws)
+                        numerator = count_matches(species, s)
+                        denom = s.num_species_kraken
+                        row = find_row(ws, sample_name)
+                        ws.cell(row, column).value = str(numerator) + "/" + str(denom)
+            column += 1
         wb.save("Blast_output_" + dir + ".xlsx")
