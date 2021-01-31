@@ -2,6 +2,6 @@ Command line BLAST generates text files as output. BLAST_to_Excel.py collects th
 
 Excel_Summary.py takes column C and D and puts them in a new file. The Excel file it creates is a table where each row is a sample, and each column is a species. The fractions represent the number of reads identified by Kraken (from column C of the other spreadsheet) over the number of reads confirmed by BLAST (from column D of the other spreadsheet).
 
-Zoonotic_Excel.py performs the same function as BLAST_to_Excel.py. The difference is that BLAST_to_Excel.py is given a directory (e.g. called /Chlamydia_trachomatis/) and it loops through all of the files inside (e.g. called 30C_blasted.fastq). Zoonotic_Excel.py is given a genus instead of a species directory, and the files inside consist of many species and samples (e.g. 107V_Brucella_abortus.txt, 30R_Brucella_melitensis.txt).
+Zoonotic_Excel.py performs the same function as BLAST_to_Excel.py. The difference is that BLAST_to_Excel.py is given a directory (e.g. called Chlamydia_trachomatis/) and it loops through all of the files inside (e.g. called 30C_blasted.fastq). Zoonotic_Excel.py is given a genus instead of a species directory, and the files inside consist of many species and samples (e.g. 107V_Brucella_abortus.txt, 30R_Brucella_melitensis.txt).
 
 Zoonotic_Summary.py is a work in progress.
