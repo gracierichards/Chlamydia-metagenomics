@@ -7,7 +7,6 @@ import sys
 it is in."""
 
 species_set = {}
-nonspecies = {}
 clost = []
 zoonotic = ["Anaplasma phagocytophilum", "Bacillus anthracis", "Bacillus paranthracis", "Borreliella burgdorferi", "Brucella abortus",
             "Brucella melitensis", "Brucella sp. 10RB9215", "Brucella suis", "Campylobacter avium", "Campylobacter coli",
@@ -35,19 +34,6 @@ respiratory = ["Influenza A virus", "Bordetella parapertussis", "Bordetella pert
                "Klebsiella aerogenes", "Klebsiella pneumoniae", "Legionella pneumophila", "Mycobacterium haemophilum",
                "Mycobacterium leprae", "Mycobacterium canettii", "Mycobacterium tuberculosis", "Mycoplasma pneumoniae"]
 acinetobacter = ["baumannii", "calcoaceticus", "nosocomialis", "pittii"]
-
-def find_species_name(out_taxid):
-    report = open("kraken_report_clean_" + n.sample + ".txt", "r")
-    for line in report:
-        columns = line.split("\t")
-        if columns[4] == out_taxid:
-            taxon = " ".join(columns[5].split())
-            if columns[3] == "S":
-                species_set[out_taxid] = taxon
-            else:
-                nonspecies[out_taxid] = taxon
-            report.close()
-            return taxon
     
 def pathogen_type(species):
     if species.split()[0] == "Lactobacillus":
@@ -109,10 +95,26 @@ def pathogen_type(species):
     else:
         return "Other"
     
+"""Fills in the dictionary species_set with the keys being species and subspecies, and the values are tuples (taxon name,
+parent species)"""
+def subspecies():
+    species_taxid = ""
+    for line in report:
+        columns = line.split("\t")
+        taxon = " ".join(columns[5].split())
+        if columns[3] == "S":
+            species_taxid = columns[4]
+            if columns[4] not in species_set:
+                species_set[columns[4]] = (taxon, "")
+        elif columns[3].startswith("S"):
+            species_set[columns[4]] = (taxon, species_taxid)
+    report.close()
+    
 """Goes through the Kraken report and lists out the taxids of all species within the order Clostridiales."""
 def make_list_clost_species():
     list1 = []
     found = False
+    report = open("/home/sbomman/Kraken2/output/kraken_report_clean_" + n.sample + ".txt", "r")
     for line in report:
         columns = line.split("\t")
         if found:
@@ -146,6 +148,7 @@ except IOError:
     print("Not a valid sample name.")
     sys.exit()
 
+subspecies()
 make_list_clost_species()
 
 for pathogen in ["Lactobacillus", "Gardnerella", "Chlamydia", "Chlamydia_like", "Zoonotic_pathogens", "BV_pathogens", "STD_pathogens",
@@ -159,7 +162,11 @@ while line != "":
         taxid = line.split("\t")[2]
         if taxid != "0" and taxid != "1":
             if taxid in species_set:
-                species = species_set[taxid]
+                if species_set[taxid][1] == "":
+                    species = species_set[taxid][0]
+                else:
+                    parent_species = species_set[taxid][1]
+                    species = species_set[parent_species][0]
                 record = records[read_id]
                 target_dir = pathogen_type(species)
                 species = species.replace(":", "")
@@ -169,19 +176,5 @@ while line != "":
                 f = open(os.getcwd() + "/" + target_dir + "/" + species + ".txt", "a")
                 SeqIO.write(record, f, "fasta")
                 f.close()
-            elif taxid in nonspecies:
-                continue
-            else:
-                species = find_species_name(taxid)
-                if taxid in species_set:
-                    record = records[read_id]
-                    target_dir = pathogen_type(species)
-                    species = species.replace(":", "")
-                    species = species.replace("(", "")
-                    species = species.replace(")", "")
-                    species = species.replace(" ", "_")
-                    f = open(os.getcwd() + "/" + target_dir + "/" + species + ".txt", "a")
-                    SeqIO.write(record, f, "fasta")
-                    f.close()
     line = kraken_out.readline()
     
