@@ -172,6 +172,7 @@ while line != "":
                 species = species.replace(":", "")
                 species = species.replace("(", "")
                 species = species.replace(")", "")
+                species = species.replace("/", "")
                 species = species.replace(" ", "_")
                 f = open(os.getcwd() + "/" + target_dir + "/" + species + ".txt", "a")
                 SeqIO.write(record, f, "fastq")
