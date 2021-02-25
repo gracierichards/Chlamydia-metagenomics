@@ -6,7 +6,7 @@ Zoonotic_Excel.py performs the same function as BLAST_to_Excel.py. The differenc
 
 Zoonotic_Summary.py is a work in progress.
 
-GR_extraction extracts all reads from a sequence file according to the classification done by Kraken. It should be run in a directory, and afterwards will create subdirectories for each category of pathogens. For each species, all sequences of that species are saved in a file in the correct category. GR_extraction_FASTA.py should be used if BLAST is downstream in your workflow. It takes FASTQ files as input; it's named FASTA because it outputs FASTA format. If you want to save sequences with their quality scores, use GR_extraction_FASTQ.py.
+GR_extraction extracts all reads (that are species or subspecies level) from a sequence file according to the classification done by Kraken. It should be run in a directory, and afterwards will create subdirectories for each category of pathogens. For each species, all sequences of that species are saved in a file in the correct category. GR_extraction_FASTA.py should be used if BLAST is downstream in your workflow. It takes FASTQ files as input; it's named FASTA because it outputs FASTA format. If you want to save sequences with their quality scores, use GR_extraction_FASTQ.py.
 
 Usage is
 >python GR_extraction_FASTA.py sample_name
