@@ -176,7 +176,7 @@ while line != "":
                 species = species.replace("]", "")
                 species = species.replace("/", "")
                 species = species.replace(" ", "_")
-                f = open(os.getcwd() + "/" + target_dir + "/" + species + ".txt", "a")
+                f = open(os.getcwd() + "/" + target_dir + "/" + species + ".fastq", "a")
                 SeqIO.write(record, f, "fastq")
                 f.close()
     line = kraken_out.readline()
