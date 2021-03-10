@@ -17,9 +17,7 @@ zoonotic = ["Anaplasma phagocytophilum", "Bacillus anthracis", "Bacillus paranth
             "Mycobacterium paraintracellulare", "Streptococcus suis", "Yersinia pestis", "Yersinia pseudotuberculosis"]
 bv = ["Anaerococcus", "Atopobium", "Bifidobacterium", "Corynebacterium", "Enterobacter", "Finegoldia", "Gemella", "Megasphaera",
       "Mobiluncus", "Peptoniphilus", "Prevotella", "Staphylococcus", "Streptococcus"]
-pseudomonas = ["aeruginosa", "alcaligenes", "citronellolis", "furukawaii", "mendocina", "multiresinivorans", "nitroreducens",
-               "oleovorans", "resinovorans"]
-std = ["Acinetobacter junii", "Human alphaherpesvirus 2", "Mycoplasma genitalium", "Neisseria gonorrhoeae", "Ureaplasma urealyticum"]
+std = ["Human alphaherpesvirus 2", "Mycoplasma genitalium", "Neisseria gonorrhoeae", "Ureaplasma urealyticum"]
 gut = ["Bacteroides fragilis", "Clostridioides difficile", "Enterococcus faecalis", "Enterococcus faecium", "Helicobacter pylori",
        "Rotavirus C", "Rotavirus D", "Salmonella enterica", "Vibrio cholerae", "Vibrio parahaemolyticus",
        "Yersinia enterocolitica", "Yersinia similis"]
@@ -33,7 +31,7 @@ respiratory = ["Influenza A virus", "Bordetella parapertussis", "Bordetella pert
                "Elizabethkingia anophelis", "Haemophilus haemolyticus", "Haemophilus pittmaniae", "Haemophilus sp. oral taxon 036",
                "Klebsiella aerogenes", "Klebsiella pneumoniae", "Legionella pneumophila", "Mycobacterium haemophilum",
                "Mycobacterium leprae", "Mycobacterium canettii", "Mycobacterium tuberculosis", "Mycoplasma pneumoniae"]
-acinetobacter = ["baumannii", "calcoaceticus", "nosocomialis", "pittii"]
+acinetobacter = ["baumannii", "calcoaceticus", "junii", "nosocomialis", "pittii"]
     
 def pathogen_type(species):
     if species.split()[0] == "Lactobacillus":
@@ -64,9 +62,9 @@ def pathogen_type(species):
         return "BV_pathogens"
     elif species == "Collinella aerofaciens":
         return "BV_pathogens"
-    elif species.split()[0] == "Alphapapillomavirus":
+    elif species == "Pseudomonas aeruginosa":
         return "STD_pathogens"
-    elif species.split()[0] == "Pseudomonas" and species.split()[1] in pseudomonas:
+    elif species.split()[0] == "Alphapapillomavirus":
         return "STD_pathogens"
     elif species.split()[0] == "Shigella":
         return "Gut_pathogens"
