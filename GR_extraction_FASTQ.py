@@ -17,7 +17,7 @@ zoonotic = ["Anaplasma phagocytophilum", "Bacillus anthracis", "Bacillus paranth
             "Mycobacterium paraintracellulare", "Streptococcus suis", "Yersinia pestis", "Yersinia pseudotuberculosis"]
 bv = ["Anaerococcus", "Atopobium", "Bifidobacterium", "Corynebacterium", "Enterobacter", "Finegoldia", "Gemella", "Megasphaera",
       "Mobiluncus", "Peptoniphilus", "Prevotella", "Staphylococcus", "Streptococcus"]
-std = ["Human alphaherpesvirus 2", "Mycoplasma genitalium", "Neisseria gonorrhoeae", "Ureaplasma urealyticum"]
+std = ["Human alphaherpesvirus 2", "Mycoplasma genitalium", "Neisseria gonorrhoeae"]
 gut = ["Bacteroides fragilis", "Clostridioides difficile", "Enterococcus faecalis", "Enterococcus faecium", "Helicobacter pylori",
        "Rotavirus C", "Rotavirus D", "Salmonella enterica", "Vibrio cholerae", "Vibrio parahaemolyticus",
        "Yersinia enterocolitica", "Yersinia similis"]
@@ -64,6 +64,8 @@ def pathogen_type(species):
         return "BV_pathogens"
     elif species == "Pseudomonas aeruginosa":
         return "STD_pathogens"
+    elif species == "Ureaplasma urealyticum":
+        return "UTI_pathogens"
     elif species.split()[0] == "Alphapapillomavirus":
         return "STD_pathogens"
     elif species.split()[0] == "Shigella":
@@ -150,7 +152,7 @@ subspecies()
 make_list_clost_species()
 
 for pathogen in ["Lactobacillus", "Gardnerella", "Chlamydia", "Chlamydia_like", "Zoonotic_pathogens", "BV_pathogens", "STD_pathogens",
-                 "Gut_pathogens", "Skin_pathogens", "Foodborne_pathogens", "Respiratory_pathogens", "ARB", "Other"]:
+                 "Gut_pathogens", "Skin_pathogens", "Foodborne_pathogens", "Respiratory_pathogens", "UTI_pathogens", "ARB", "Other"]:
     make_directories(pathogen)
 
 line = kraken_out.readline()
