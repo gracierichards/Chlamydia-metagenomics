@@ -8,7 +8,7 @@ from openpyxl.cell import Cell
 status = {"30":"Negative", "35":"Negative", "57":"Negative", "121":"Negative", "319":"Negative", "72":"Positive", "98":"Positive",
 "107":"Positive", "192":"Positive", "362":"Positive"}
 
-completed = ["Anaplasma", "Bacillus", "belli_group", "Borreliella", "Brucella", "Campylobacter", "Capripoxvirus", "Erysipelothrix", "Leptospira", "Rickettsia", "spotted_fever_group", "Unclassified"]
+completed = []
 
 class Sample:
     def __init__(self, name, ct_status):
@@ -256,7 +256,7 @@ def collect_species(dir):
     return s
 
 for dir in os.listdir("/home/sbomman/ncbi_blast/Blasted_seq/Zoonotic_pathogens"):
-    if not dir.endswith("txt") and not dir.endswith("py") and not in completed:
+    if not dir.endswith("txt") and not dir.endswith("py") and dir not in completed:
         wb = Workbook()
         dire = "/home/sbomman/ncbi_blast/Blasted_seq/Zoonotic_pathogens/" + dir + "/"
         species_list = collect_species(dire)
