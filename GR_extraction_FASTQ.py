@@ -14,13 +14,12 @@ zoonotic = ["Anaplasma phagocytophilum", "Bacillus anthracis", "Bacillus paranth
             "Erysipelothrix rhusiopathiae", "Francisella tularensis", "Haemophilus influenzae", "Haemophilus parahaemolyticus",
             "Haemophilus parainfluenzae", "Mycobacterium avium", "Mycobacterium chimaera", "Mycobacterium colombiense",
             "Mycobacterium intracellulare", "Mycobacterium lepraemurium", "Mycobacterium mantenii", "Mycobacterium marseillense",
-            "Mycobacterium paraintracellulare", "Streptococcus suis", "Yersinia pestis", "Yersinia pseudotuberculosis"]
+            "Mycobacterium paraintracellulare", "Streptococcus suis",  "Yersinia enterocolitica", "Yersinia pestis", "Yersinia pseudotuberculosis"]
 bv = ["Anaerococcus", "Atopobium", "Bifidobacterium", "Corynebacterium", "Enterobacter", "Finegoldia", "Gemella", "Megasphaera",
       "Mobiluncus", "Peptoniphilus", "Prevotella", "Staphylococcus", "Streptococcus"]
 std = ["Human alphaherpesvirus 2", "Mycoplasma genitalium", "Neisseria gonorrhoeae"]
 gut = ["Bacteroides fragilis", "Clostridioides difficile", "Enterococcus faecalis", "Enterococcus faecium", "Helicobacter pylori",
-       "Rotavirus C", "Rotavirus D", "Salmonella enterica", "Vibrio cholerae", "Vibrio parahaemolyticus",
-       "Yersinia enterocolitica", "Yersinia similis"]
+       "Rotavirus C", "Rotavirus D", "Salmonella enterica", "Vibrio cholerae", "Vibrio parahaemolyticus", "Yersinia similis"]
 burkholderia = ["mallei", "oklahomensis", "pseudomallei", "sp. BDU6", "sp. BDU8", "sp. MSMB0266", "sp. MSMB0852", "sp. MSMB1588",
                 "sp. MSMB617WGS", "thailandensis"]
 skin = ["Lymphocystis disease virus 1", "Mycobacterium haemophilum", "Mycobacterium ulcerans", "Canid alphaherpesvirus 1",
