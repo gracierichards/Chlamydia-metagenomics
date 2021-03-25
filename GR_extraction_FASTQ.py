@@ -14,16 +14,18 @@ zoonotic = ["Anaplasma phagocytophilum", "Bacillus anthracis", "Bacillus paranth
             "Erysipelothrix rhusiopathiae", "Francisella tularensis", "Haemophilus influenzae", "Haemophilus parahaemolyticus",
             "Haemophilus parainfluenzae", "Mycobacterium avium", "Mycobacterium chimaera", "Mycobacterium colombiense",
             "Mycobacterium intracellulare", "Mycobacterium lepraemurium", "Mycobacterium mantenii", "Mycobacterium marseillense",
-            "Mycobacterium paraintracellulare", "Streptococcus suis",  "Yersinia enterocolitica", "Yersinia pestis", "Yersinia pseudotuberculosis"]
+            "Mycobacterium paraintracellulare", "Streptococcus suis", "Yersinia enterocolitica", "Yersinia pestis",
+            "Yersinia pseudotuberculosis"]
 bv = ["Anaerococcus", "Atopobium", "Bifidobacterium", "Corynebacterium", "Enterobacter", "Finegoldia", "Gemella", "Megasphaera",
       "Mobiluncus", "Peptoniphilus", "Prevotella", "Staphylococcus", "Streptococcus"]
 std = ["Human alphaherpesvirus 2", "Mycoplasma genitalium", "Neisseria gonorrhoeae"]
-gut = ["Bacteroides fragilis", "Clostridioides difficile", "Enterococcus faecalis", "Enterococcus faecium", "Helicobacter pylori",
-       "Rotavirus C", "Rotavirus D", "Salmonella enterica", "Vibrio cholerae", "Vibrio parahaemolyticus", "Yersinia similis"]
+gut = ["Bacteroides fragilis", "Clostridioides difficile", "Enterococcus faecium", "Helicobacter pylori", "Rotavirus C", "Rotavirus D",
+       "Salmonella enterica", "Yersinia similis"]
 burkholderia = ["mallei", "oklahomensis", "pseudomallei", "sp. BDU6", "sp. BDU8", "sp. MSMB0266", "sp. MSMB0852", "sp. MSMB1588",
                 "sp. MSMB617WGS", "thailandensis"]
 skin = ["Lymphocystis disease virus 1", "Mycobacterium haemophilum", "Mycobacterium ulcerans", "Canid alphaherpesvirus 1",
         "Equid alphaherpesvirus 9", "Suid alphaherpesvirus 1"]
+foodborne = ["Listeria monocytogenes", "Vibrio cholerae", "Vibrio parahaemolyticus"]
 bacillus = ["albus", "bombysepticus", "cereus", "cytotoxicus", "luti", "mobilis", "mycoides", "pacificus", "pseudomycoides",
             "sp. ABP14", "sp. FDAARGOS_235", "sp. HBCD-sjtu", "sp. JAS24-2", "thuringiensis", "toyonensis", "tropicus", "wiedmannii"]
 respiratory = ["Influenza A virus", "Bordetella parapertussis", "Bordetella pertussis", "Dialister pneumosintes",
@@ -65,14 +67,14 @@ def pathogen_type(species):
         return "STD_pathogens"
     elif species == "Ureaplasma urealyticum":
         return "UTI_pathogens"
+    elif species == "Enterococcus faecalis":
+        return "UTI_pathogens"
     elif species.split()[0] == "Alphapapillomavirus":
         return "STD_pathogens"
     elif species.split()[0] == "Shigella":
         return "Gut_pathogens"
     elif species.split()[0] == "Burkholderia" and species.split()[1:] in burkholderia:
         return "Skin_pathogens"
-    elif species == "Listeria monocytogenes":
-        return "Foodborne_pathogens"
     elif species.split()[0] == "Bacillus" and species.split()[1:] in bacillus:
         return "Foodborne_pathogens"
     elif species.split()[0] == "Acinetobacter" and species.split()[1] in acinetobacter:
@@ -91,6 +93,8 @@ def pathogen_type(species):
         return "Skin_pathogens"
     elif species in respiratory:
         return "Respiratory_pathogens"
+    elif species in foodborne:
+        return "Foodborne_pathogens"
     else:
         return "Other"
     
