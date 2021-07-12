@@ -13,4 +13,4 @@ Usage is
 
 where sample_name is a prefix of your file name like 30C.
 
-The VALENCIAinput programs prepare input CSV files for VALENCIA software according to the specifications on the VALENCIA GitHub page.
+The VALENCIAinput programs prepare input CSV files for VALENCIA software according to the specifications on the VALENCIA GitHub page. OneCodex_to_VALENCIA_input.py converts the relative abundance data, downloaded from the One Codex website as a CSV file, to the input format, and VIRGO_to_VALENCIA_input.py converts the summary.Abundance.txt file obtained from VIRGO to the input format.
