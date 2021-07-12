@@ -12,3 +12,5 @@ Usage is
 >python GR_extraction_FASTA.py sample_name
 
 where sample_name is a prefix of your file name like 30C.
+
+The VALENCIAinput programs prepare input CSV files for VALENCIA software according to the specifications on the VALENCIA GitHub page.
