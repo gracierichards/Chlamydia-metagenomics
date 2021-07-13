@@ -4,8 +4,6 @@ Excel_Summary.py takes column C and D and puts them in a new file. The Excel fil
 
 Zoonotic_Excel.py performs the same function as BLAST_to_Excel.py. The difference is that BLAST_to_Excel.py is given a directory (e.g. called Chlamydia_trachomatis/) and it loops through all of the files inside (e.g. called 30C_blasted.txt). Zoonotic_Excel.py is given a genus instead of a species directory, and the files inside consist of many species and samples (e.g. 107V_Brucella_abortus.txt, 30R_Brucella_melitensis.txt). While BLAST_to_Excel.py was used for Chlamydia and Lactobacillus for example, Zoonotic_Excel.py was used for the broader categories, the Zoonotic pathogens, BV pathogens, etc.
 
-Zoonotic_Summary.py is a work in progress.
-
 GR_extraction extracts all reads (that are species or subspecies level) from a sequence file according to the classification done by Kraken. It should be run in a directory, and afterwards will create subdirectories for each category of pathogens. For each species, all sequences of that species are saved in a file in the correct category. GR_extraction_FASTA.py should be used if BLAST is downstream in your workflow. It takes FASTQ files as input; it's named FASTA because it outputs FASTA format. If you want to save sequences with their quality scores, use GR_extraction_FASTQ.py.
 
 Usage is
