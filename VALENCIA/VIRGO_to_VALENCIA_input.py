@@ -1,7 +1,9 @@
 import csv
+import argparse
+import sys
 
 def find_num_reads(sample, taxon):
-    input0 = open("../../Downloads/VIRGO output/summary.Abundance.txt", 'r')
+    input0 = open(n.input, 'r')
     line = input0.readline()
     species = line.split()
     i = 0
@@ -9,17 +11,17 @@ def find_num_reads(sample, taxon):
         if species[i] == taxon:
             break
         i += 1
-    row = 0
-    while row < 30:
-        line = input0.readline()
+    line = input0.readline()
+    while line != "":
         sample2 = line.split()[0]
         if sample == sample2:
             return line.split()[i]
-        row += 1
+        line = input0.readline()
 
 def add_up_genus(sample, genus):
+    #cols contains the indices of the cells that are species of the given genus
     cols = []
-    input0 = open("../../Downloads/VIRGO output/summary.Abundance.txt", 'r')
+    input0 = open(n.input, 'r')
     line = input0.readline()
     species = line.split()
     i = 0
@@ -35,28 +37,32 @@ def add_up_genus(sample, genus):
                     break
             break
         i += 1
-    row = 0
     sum0 = 0
-    while row < 30:
-        line = input0.readline()
+    line = input0.readline()
+    while line != "":
         sample2 = line.split()[0]
         if sample == sample2:
             for col in cols:
                 sum0 += int(line.split()[col])
-        row += 1
+        line = input0.readline()
     return sum0
+
+parser = argparse.ArgumentParser()
+parser.add_argument("input", help="Please provide the path to the summary.Abundance.txt file.")
+n = parser.parse_args()
+try:
+    input0 = open(n.input, "r")
+except IOError:
+    print("Error in provided input path.")
+    sys.exit()
 
 output = open("VALENCIAinputVIRGO.csv", "w", newline='')
 a = csv.writer(output)
-column2 = {"107C":4273143, "107V":44126492, "121C":1917389, "121V":4033264, "192C":1593456, "192V":7937196, "30C":1143424,
-           "30V":7431500, "319C":1305023, "319V":1542082, "35C":1069782, "35V":1570433, "362C":17988652, "362V":8102405,
-           "57C":1808156, "57V":11897747, "72C":1510729, "72V":4644785, "98C":2239234, "98V":11508517}
 lactobacillus = []
 gardnerella = []
 prevotella = []
 atopobium = []
 sneathia = []
-input0 = open("../../Downloads/VIRGO output/summary.Abundance.txt", 'r')
 line = input0.readline()
 species = line.split()[1:]
 for s in species:
@@ -84,16 +90,23 @@ genera.add("BVAB1")
 
 row1 = ["sampleID", "read_count"] + lactobacillus + gardnerella + prevotella + atopobium + sneathia + list(genera)
 a.writerow(row1)
-for sample in column2:
-    row = [sample, column2[sample]]
+
+input0 = open(n.input, 'r')
+line = input0.readline()
+line = input0.readline()
+while line != "":
+    sample2 = line.split()[0]
+    row_to_write = [sample2]
     for taxon in row1:
         if taxon == "sampleID" or taxon == "read_count":
             x = 0
         else:
             if taxon.startswith("g_"):
-                num_reads = add_up_genus(sample, taxon[2:])
+                num_reads = add_up_genus(sample2, taxon[2:])
             else:
-                num_reads = find_num_reads(sample, taxon)
-            row.append(num_reads)
-    a.writerow(row)
-    
+                num_reads = find_num_reads(sample2, taxon)
+            row_to_write.append(num_reads)
+    #Calculate the read_count:
+    row_to_write.insert(1, sum([int(x) for x in row_to_write[1:]]))
+    a.writerow(row_to_write)
+    line = input0.readline()
