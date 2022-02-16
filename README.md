@@ -6,11 +6,13 @@ Zoonotic_Excel.py performs the same function as BLAST_to_Excel.py. The differenc
 
 GR_extraction extracts all reads (that are species or subspecies level) from a sequence file according to the classification done by Kraken. It should be run in a directory, and afterwards will create subdirectories for each category of pathogens. For each species, all sequences of that species are saved in a file in the correct category. GR_extraction_FASTA.py should be used if BLAST is downstream in your workflow. It takes FASTQ files as input; it's named FASTA because it outputs FASTA format. If you want to save sequences with their quality scores, use GR_extraction_FASTQ.py.
 
-Usage is
+Usage of GR_extraction_FASTA.py:
 >python GR_extraction_FASTA.py sample_name
 
 where sample_name is a prefix of your file name like 30C.
 
 The VALENCIA_input programs prepare input CSV files for VALENCIA software according to the specifications on the VALENCIA GitHub page. OneCodex_to_VALENCIA_input.py converts the relative abundance data, downloaded from the One Codex website as a CSV file, to the input format, and VIRGO_to_VALENCIA_input.py converts the summary.Abundance.txt file obtained from VIRGO to the input format.
+Usage of VIRGO_to_VALENCIA_input.py:
+>python VIRGO_to_VALENCIA_input.py <path to summary.Abundance.txt>
 
 replace_accnum_dirs.py was used to replace all accession numbers in directory and file names with the name of the corresponding sample. It recursively traverses all subdirectories in the directory specified at the end of the program. The mapping from accession numbers to sample names was in an Excel file that this program reads in.
