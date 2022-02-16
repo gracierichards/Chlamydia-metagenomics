@@ -13,6 +13,6 @@ where sample_name is a prefix of your file name like 30C.
 
 The VALENCIA_input programs prepare input CSV files for VALENCIA software according to the specifications on the VALENCIA GitHub page. OneCodex_to_VALENCIA_input.py converts the relative abundance data, downloaded from the One Codex website as a CSV file, to the input format, and VIRGO_to_VALENCIA_input.py converts the summary.Abundance.txt file obtained from VIRGO to the input format.
 Usage of VIRGO_to_VALENCIA_input.py:
->python VIRGO_to_VALENCIA_input.py <path to summary.Abundance.txt>
+>python VIRGO_to_VALENCIA_input.py "path to summary.Abundance.txt"
 
 replace_accnum_dirs.py was used to replace all accession numbers in directory and file names with the name of the corresponding sample. It recursively traverses all subdirectories in the directory specified at the end of the program. The mapping from accession numbers to sample names was in an Excel file that this program reads in.
