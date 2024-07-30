@@ -13,7 +13,7 @@ for c in range(len(columns)):
         rectal_columns.append(c)
         
 def VcomparedtoR():
-    print("Pathways that have a higher sum of abudances in vaginal samples than rectal samples")
+    print("Pathways that have a higher sum of abundances in vaginal samples than rectal samples")
     f2 = open("/Users/gracie/Downloads/unique_V_compared_to_R.tsv", "w")
     f2.write(first_line + "\tVaginal Sum\tRectal Sum\tDifference\n")
     line = f.readline()[:-1]
